@@ -1,0 +1,6 @@
+langchain4j:
+  open-ai:
+    chat-model:
+      api-key: sk-43070f4cd1074965a93a03d6d5333cd8
+      model-name: qwen-flash
+      base-url: https://dashscope.aliyuncs.com/compatible-mode/v1

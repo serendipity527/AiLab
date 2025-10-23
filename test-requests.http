@@ -1,0 +1,143 @@
+### Langchain4j 测试请求
+### 可以在 IDEA 中直接运行这些 HTTP 请求
+
+### 1. 简单对话
+POST http://localhost:8080/api/chat/simple
+Content-Type: application/json
+
+{
+  "message": "你好，请介绍一下你自己"
+}
+
+###
+
+### 2. 简单对话 - 编程问题
+POST http://localhost:8080/api/chat/simple
+Content-Type: application/json
+
+{
+  "message": "什么是 Java 中的多态？请举例说明"
+}
+
+###
+
+### 3. 带系统提示的对话 - Java 学习助手
+POST http://localhost:8080/api/chat/with-system-message
+Content-Type: application/json
+
+{
+  "message": "什么是面向对象编程的三大特性？"
+}
+
+###
+
+### 4. 带系统提示的对话 - Spring Boot 问题
+POST http://localhost:8080/api/chat/with-system-message
+Content-Type: application/json
+
+{
+  "message": "Spring Boot 中 @Autowired 和 @Resource 的区别？"
+}
+
+###
+
+### 5. 多轮对话 - 第一轮
+POST http://localhost:8080/api/chat/multi-turn
+Content-Type: application/json
+
+{
+  "message": "我叫小明，我正在学习 Spring Boot"
+}
+
+###
+
+### 6. 多轮对话 - 第二轮（测试记忆功能）
+POST http://localhost:8080/api/chat/multi-turn
+Content-Type: application/json
+
+{
+  "message": "你还记得我的名字吗？我在学什么？"
+}
+
+###
+
+### 7. 多轮对话 - 第三轮
+POST http://localhost:8080/api/chat/multi-turn
+Content-Type: application/json
+
+{
+  "message": "能给我推荐一些 Spring Boot 的学习资源吗？"
+}
+
+###
+
+### 8. AI Service 接口 - 基础问题
+POST http://localhost:8080/api/chat/ai-service
+Content-Type: application/json
+
+{
+  "message": "Java 和 Python 的主要区别是什么？"
+}
+
+###
+
+### 9. AI Service 接口 - 编程建议
+POST http://localhost:8080/api/chat/ai-service
+Content-Type: application/json
+
+{
+  "message": "如何提高 Java 代码的性能？"
+}
+
+###
+
+### 10. 流式响应 - 诗歌创作
+POST http://localhost:8080/api/chat/stream
+Content-Type: application/json
+
+{
+  "message": "请写一首关于程序员的诗"
+}
+
+###
+
+### 11. 流式响应 - 故事创作
+POST http://localhost:8080/api/chat/stream
+Content-Type: application/json
+
+{
+  "message": "讲一个关于 AI 和人类成为朋友的短故事"
+}
+
+###
+
+### 12. 流式响应 - 代码生成
+POST http://localhost:8080/api/chat/stream
+Content-Type: application/json
+
+{
+  "message": "请用 Java 写一个快速排序算法，并添加详细注释"
+}
+
+###
+
+### 13. 复杂问题测试
+POST http://localhost:8080/api/chat/ai-service
+Content-Type: application/json
+
+{
+  "message": "请解释一下 Spring Boot 的自动配置原理，并说明 @SpringBootApplication 注解的作用"
+}
+
+###
+
+### 14. 代码审查请求
+POST http://localhost:8080/api/chat/simple
+Content-Type: application/json
+
+{
+  "message": "请帮我审查这段代码并提出改进建议：\npublic void processData(List data) {\n    for(int i=0; i<data.size(); i++) {\n        System.out.println(data.get(i));\n    }\n}"
+}
+
+###
+
