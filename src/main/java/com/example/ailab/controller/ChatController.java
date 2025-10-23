@@ -1,9 +1,13 @@
 package com.example.ailab.controller;
 
+import com.example.ailab.AiService.Assistant;
 import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.chat.StreamingChatModel;
-import dev.langchain4j.model.chat.response.*;
+import dev.langchain4j.model.openai.OpenAiChatModel;
 import dev.langchain4j.model.openai.OpenAiStreamingChatModel;
+import dev.langchain4j.service.AiServices;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import static dev.langchain4j.model.LambdaStreamingResponseHandler.onPartialResponse;
@@ -72,5 +76,28 @@ public class ChatController {
         model.chat("Tell me a joke", onPartialResponseAndError(System.out::print, Throwable::printStackTrace));
 
         return model.toString();
+    }
+
+    @Autowired
+    Assistant assistant;
+
+
+    @RequestMapping("/AiService")
+    public String aiService(){
+        ChatModel model = OpenAiChatModel.builder()
+                .apiKey(API_KEY)
+                .modelName("qwen-flash")
+                .baseUrl(BASE_URL)
+                .build();
+
+        Assistant assistant = AiServices.create(Assistant.class, model);
+        String resp = assistant.chat("Tell me a joke");
+
+        return resp;
+
+    }
+    @GetMapping("/aiServiceAnnotation")
+    public String aiServiceAnnotation() {
+        return assistant.chat("hello");
     }
 }
