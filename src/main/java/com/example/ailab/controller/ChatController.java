@@ -1,6 +1,5 @@
 package com.example.ailab.controller;
 
-import com.example.ailab.AiService.Assistant;
 import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.chat.StreamingChatModel;
 import dev.langchain4j.model.openai.OpenAiChatModel;
@@ -19,18 +18,19 @@ public class ChatController {
 
 
     private final ChatModel openAiChatModel;
+
     ChatController(ChatModel chatModel) {
         this.openAiChatModel = chatModel;
     }
 
     @RequestMapping("/chat")
-    public String chat(){
+    public String chat() {
         return openAiChatModel.chat("你好");
     }
 
 
     @RequestMapping("/streamChat")
-    public String streamChat(){
+    public String streamChat() {
         StreamingChatModel model = OpenAiStreamingChatModel.builder()
                 .apiKey(API_KEY)
                 .baseUrl(BASE_URL)
@@ -77,27 +77,7 @@ public class ChatController {
 
         return model.toString();
     }
-
-    @Autowired
-    Assistant assistant;
-
-
-    @RequestMapping("/AiService")
-    public String aiService(){
-        ChatModel model = OpenAiChatModel.builder()
-                .apiKey(API_KEY)
-                .modelName("qwen-flash")
-                .baseUrl(BASE_URL)
-                .build();
-
-        Assistant assistant = AiServices.create(Assistant.class, model);
-        String resp = assistant.chat("Tell me a joke");
-
-        return resp;
-
-    }
-    @GetMapping("/aiServiceAnnotation")
-    public String aiServiceAnnotation() {
-        return assistant.chat("hello");
-    }
 }
+
+
+
