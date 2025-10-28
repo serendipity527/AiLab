@@ -1,6 +1,7 @@
 package com.example.ailab.AiService;
 
 import dev.langchain4j.agent.tool.Tool;
+import dev.langchain4j.agentic.AgenticServices;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.chat.StreamingChatModel;
@@ -40,10 +41,7 @@ interface StreamAssistant {
 
 }
 
-interface Friend {
-    @SystemMessage("You are a good friend of mine. Answer using slang.")
-    String chat(String userMessage);
-}
+
 
 interface Translator {
     @SystemMessage("You are a professional translator into {{language}}")
@@ -103,7 +101,10 @@ class Calculator {
 public class AiServiceTest {
     private static final String API_KEY = "sk-43070f4cd1074965a93a03d6d5333cd8";
     public static final String BASE_URL = "https://dashscope.aliyuncs.com/compatible-mode/v1";
-
+    public interface Friend {
+        @SystemMessage("You are a good friend of mine. Answer using slang.")
+        String chat(String userMessage);
+    }
     // 基本使用
     public static void basicUse() {
         // 第2步：配置模型
@@ -299,6 +300,24 @@ public class AiServiceTest {
             }
         }
     }
+    // 可观察性
+    public static void observabilityTest(){
+        ChatModel model = OpenAiChatModel.builder()
+                .apiKey(API_KEY)
+                .modelName("qwen-flash")
+                .baseUrl(BASE_URL)
+                .build();
+        Friend creativeWriter = AgenticServices.agentBuilder(Friend.class)
+                .chatModel(model)
+                .outputKey("story")
+                .beforeAgentInvocation(request -> System.out.println("Invoking CreativeWriter with topic: " + request.inputs().get("topic")))
+                .afterAgentInvocation(response -> System.out.println("CreativeWriter generated this story: " + response.output()))
+                .build();
+
+
+        String hello = creativeWriter.chat("hello");
+        System.out.println(hello);
+    }
     // LLM会自动调用add(1,2)和multiply(3,4)，然后给出答案
     public static void main(String[] args) {
 //        basicUse();
@@ -307,6 +326,7 @@ public class AiServiceTest {
 //        structOutput();
 //        enumOutput();
 //        pojoOutput();
-        metaDataTest();
+//        metaDataTest();
+        observabilityTest();
     }
 }
